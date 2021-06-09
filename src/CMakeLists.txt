@@ -4,7 +4,7 @@ find_kgrids.f90
 grid_utils.f90
 niggli.f90
 sp_hnfs.f90
-	)
+)
 target_include_directories(sphnf PUBLIC  ${KGRID_INC})
 
 #add_executable(lat_type.x
