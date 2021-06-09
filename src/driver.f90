@@ -17,9 +17,9 @@ PROGRAM lat_id_driver
   real(dp), allocatable :: B_vecs(:,:)
   integer, pointer :: weights(:)
 
-  
+
   call get_inputs(nkpts, lat_vecs, at, B_vecs, offset, find_offset, symm_flag, &
-       min_kpts, reps, aeps)
+       min_kpts, reps)
   call matrix_inverse(transpose(lat_vecs),r_vecs)
   call minkowski_reduce_basis(r_vecs, reduced_R, reps)
 

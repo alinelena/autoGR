@@ -9,11 +9,13 @@ PROGRAM lat_id_driver
     integer :: r_low, r_high
     CHARACTER(len=32) :: arg1,arg2
     integer, allocatable :: HNFs(:,:,:)
-    real(dp), pointer :: B_vecs(:,:)
+    real(dp), allocatable :: B_vecs(:,:)
     integer :: Co(3,3), Cu(3,3), S(3,3), L(3,3), R(3,3)
     real(dp) :: No(3,3), Nu(3,3), O(3,3), U(3,3), offsets(1,3)
     real(dp) :: grid(3,3), best_offset(3)
     logical :: all_hnfs
+    integer :: sym_flag
+
     !Get command line args
     call getarg(1,arg1)
     call getarg(2,arg2)
@@ -26,6 +28,7 @@ PROGRAM lat_id_driver
     Co = 0; Cu = 0; No = 0.0_dp; Nu = 0.0_dp; O = 0.0_dp; U = 0.0_dp; offsets = 0.0_dp;
     at = 1
     all_hnfs = .True.
+		sym_flag = 0
     allocate(B_vecs(3,1))
     B_vecs = 0.0_dp
     do i=1,3
@@ -41,7 +44,7 @@ PROGRAM lat_id_driver
         print *, "Running HNFs of determinant: ", n
     endif
     call hex_12(n, No, Nu, Co, Cu, O, U, B_vecs, at, offsets, best_offset, HNFs, grid, &
-        n_irr, nhnfs, all_hnfs_=all_hnfs)
+        n_irr, sym_flag, nhnfs, all_hnfs_=all_hnfs)
     print *, "nhnfs", nhnfs
     if (nhnfs > 0) then
         k = k+nhnfs
@@ -57,7 +60,7 @@ PROGRAM lat_id_driver
         end if
         end do
     end if
-    end do 
+    end do
 print *, "total number of HNFS", k
 
 end PROGRAM lat_id_driver
